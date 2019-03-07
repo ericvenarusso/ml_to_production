@@ -40,15 +40,12 @@ class MachineLearning:
         Mongo().insert_one("models", models_params)
         pickle.dump(self.model, open(f"{os.environ['model_path']}{self.model_name}", "wb"))
 
-    def classify(self, model, api = False):
+    def classify(self, model):
         X = self.test[self.X_columns]
         y_pred = model.predict(X)
 
         pred = pd.DataFrame({'id': self.test['id'], 'type': y_pred})
 
-        if api:
-            API().open(pred)
-        else:
         mapped_pred = PreProcessing().target_map(dataframe = pred, invert = True)
 
         result = {
