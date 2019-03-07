@@ -1,7 +1,7 @@
 # Machine Learning em Produção
 O Machine Learning to production tem como principal funcao "emular" como um grande projeto seria colocado em produção.
 
-Ele possue os seguintes componentes:
+Possui os seguintes componentes:
 
 * <b>process</b>: Processamento dos dados.
 * <b>database</b>: Configuracoes e ingestoes do Banco de Dados MongoDB.
