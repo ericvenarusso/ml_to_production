@@ -5,13 +5,26 @@ import numpy as np
 import pickle
 import os
 
+"""
+    Criacao de uma API a partir de um modelo de Machine Learning ja
+    treinado.
+"""
+
 app = Flask(__name__)
 api = Api(app)
+
+"""
+    Faz a leitura do ultimo modelo
+"""
 
 clf_path = max(glob(f"{os.environ['model_path']}*.pkl"), key = os.path.getctime)
 
 with open(clf_path, "rb") as f:
     clf = pickle.load(f)
+
+"""
+    Adicao de argumentos na API
+"""
 
 parser = reqparse.RequestParser()
 parser.add_argument("id", type = int, required = True)
@@ -20,6 +33,20 @@ parser.add_argument("list", type = str, required = True)
 class ClassifyMonsters(Resource):
 
     def get(self):
+        """
+            Proprosito
+            ----------
+            Retornar a resposta do predict do Machine Learning
+
+            Parametros
+            ----------
+            none
+
+            Retorno
+            ----------
+            none
+        """
+
         args = parser.parse_args()
         user_id = args["id"]
         user_list = np.asarray([float(string) for string in args["list"].split(",")]).reshape(1, -1)

@@ -10,6 +10,19 @@ import os
 class MachineLearning:
 
     def __init__(self):
+        """
+            Inicializa variaveis que serao utilizadas no Machine Learning.
+
+            Exemplo:
+                self.train: Registros do objeto Pickle train
+                self.test: Registros do objeto Pickle test
+                self.model: Modelo de Classificacao SVC
+                self.data: Data atual
+                self.X_columns: Lista de colunas para o DataFrame X
+                self.y_columns: Lista de colunas para o DataFrame y
+                self.model_name: Nome do Modelo
+        """
+
         self.train = pd.read_pickle(f"{os.environ['dataframe_result_path']}/train.pkl")
         self.test  = pd.read_pickle(f"{os.environ['dataframe_result_path']}/test.pkl")
         self.model = SVC(C = 1, degree = 2, gamma = "auto", kernel = "rbf")
@@ -20,6 +33,20 @@ class MachineLearning:
         
 
     def fit(self):
+        """
+            Proprosito
+            ----------
+            Fazer o treinamento do modelo
+
+            Parametros
+            ----------
+            none
+
+            Retorno
+            ----------
+            none
+        """
+
         X = self.train[self.X_columns]
         y = self.train[self.y_columns]
         fitted_model = self.model.fit(X, y)
@@ -29,6 +56,20 @@ class MachineLearning:
         return fitted_model
 
     def save_model(self, model):
+        """
+            Proprosito
+            ----------
+            Salvar o modelo treinado e fazer a insercao dos parametros no MongoDB
+
+            Parametros
+            ----------
+            model: Modelo treinado
+
+            Retorno
+            ----------
+            none
+        """
+
         models_params = {
                             "name": self.model_name,
                             "X":  self.X_columns,
@@ -40,6 +81,20 @@ class MachineLearning:
         pickle.dump(self.model, open(f"{os.environ['model_path']}{self.model_name}", "wb"))
 
     def classify(self, model):
+        """
+            Proprosito
+            ----------
+            Faz a classificacao dos registros e salva o resultado no MongoDB
+
+            Parametros
+            ----------
+            model: Modelo treinado
+
+            Retorno
+            ----------
+            none
+        """
+
         X = self.test[self.X_columns]
         y_pred = model.predict(X)
 
