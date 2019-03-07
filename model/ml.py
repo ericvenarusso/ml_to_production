@@ -1,11 +1,10 @@
-from database.mongo import Mongo
 from process.preprocessing import PreProcessing
-from sklearn.svm import SVC
-from datetime import datetime
+from database.mongo        import Mongo
+from sklearn.svm           import SVC
+from datetime              import datetime
 import pandas as pd
 import pickle
 import json
-import pdb
 import os
 
 class MachineLearning:
